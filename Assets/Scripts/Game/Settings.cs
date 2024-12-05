@@ -124,6 +124,28 @@ public class Settings : MonoBehaviour
      */
     
     /// <summary>
+    /// Called when a new player joins the game.
+    /// </summary>
+    /// <param name="playerInput">The PlayerInput component of the new player.</param>
+    public void OnPlayerJoined(PlayerInput playerInput)
+    {
+        var newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        AddPlayer(newPlayer);
+    }
+
+    /// <summary>
+    /// Called when a player leaves the game.
+    /// </summary>
+    /// <param name="playerInput">The PlayerInput component of the player who left.</param>
+    public void OnPlayerLeft(PlayerInput playerInput)
+    {
+        var playerObject = playerInput.gameObject;
+        RemovePlayer(playerObject);
+        Destroy(playerObject);
+    }
+
+    
+    /// <summary>
     /// Called when the script instance is first loaded.
     /// </summary>
     private void Awake()
