@@ -133,8 +133,10 @@ public class Gun : MonoBehaviour
         
         if (mFiring && fireEnabled)
         {
+            float adjustedFireRate = shotgun ? fireRate / 3.0f : fireRate;
+            
             // Number of seconds we should wait between bullet spawns.
-            var secondsPerBullet = 1.0f / (fireRate / 60.0f);
+            var secondsPerBullet = 1.0f / (adjustedFireRate / 60.0f);
 
             while (mCoolDown <= 0.0f)
             { // Spawn corresponding number of bullets.
@@ -201,10 +203,27 @@ public class Gun : MonoBehaviour
          * Implement both single shot and shotgun (swap by pressing <SPACE> by default)
          */
         
-        SpawnBullet(
+        /*SpawnBullet(
             new Vector3{ x = 0.0f, y = 0.0f, z = 0.0f }, 
             Quaternion.Euler(0.0f, 0.0f, 0.0f)
-        );
+        );*/
+        
+        if (shotgun)
+        {
+            float fragAngle = 0;
+            
+            float bulletAngle = director.rotation.eulerAngles.z - shotgunSpread / 2;
+            
+            for (int bullet = 0; bullet < shotgunBullets; bullet++)
+            {
+                SpawnBullet(director.position, Quaternion.Euler(0.0f, 0.0f, bulletAngle + fragAngle));
+                fragAngle += shotgunSpread / shotgunBullets;
+            }
+        }
+        else
+        {
+            SpawnBullet(director.position, director.rotation);
+        }
     }
 
     /// <summary>
