@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+#if UNITY_EDITOR
 using UnityEditor.PackageManager;
+#endif
+//using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.InputSystem;
